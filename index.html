@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #ffe4e1, #ffc0cb);
+            color: #8b4513;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .cake-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .cake {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .wishes {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .wish-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 10px;
+            flex-basis: calc(33.333% - 20px);
+            text-align: center;
+            animation: slideIn 0.5s;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .emoji {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .celebrate-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .celebrate-btn:hover {
+            background-color: #ff1493;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        #audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday, keethu!</h1>
+        <div class="cake-container">
+            <img src="keethu.jpg" alt="Birthday Cake" class="cake">
+        </div>
+        <div class="wishes">
+            <div class="wish-card">
+                <div class="emoji">🎁</div>
+                <h2>Special Wishes</h2>
+                <p>Wishing you joy and laughter</p>
+            </div>
+            <div class="wish-card">
+                <div class="emoji">🎈</div>
+                <h2>Happy Memories</h2>
+                <p>Creating beautiful moments</p>
+            </div>
+            <div class="wish-card">
+                <div class="emoji">🎉</div>
+                <h2>Birthday Fun</h2>
+                <p>Celebrate this special day</p>
+            </div>
+        </div>
+        <button class="celebrate-btn" onclick="celebrate()">🎵 Celebrate!</button>
+    </div>
+    <button id="audio-control" onclick="toggleAudio()">🔇</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        function celebrate() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+        const audio = new Audio('birthday.mp3');
+        audio.loop = true;
+        let isPlaying = false;
+
+        function toggleAudio() {
+            const audioControl = document.getElementById('audio-control');
+            if (isPlaying) {
+                audio.pause();
+                audioControl.textContent = '🔇';
+            } else {
+                audio.play();
+                audioControl.textContent = '🔊';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Animate wish cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideIn 0.5s forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.wish-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
